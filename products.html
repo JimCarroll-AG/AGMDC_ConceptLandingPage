@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Products | AGMDC</title>
+  <meta name="description" content="AGMDC off-the-shelf bare die MMICs, packaged MMICs, and low noise blocks from DC to 50 GHz, with a band-by-band part finder.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Source+Serif+4:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="utility">
+    <div class="wrap">
+      <span class="tagline">A division of AmpliTech Group, Inc. (NASDAQ: AMPG)</span>
+      <span>
+        <a href="https://www.amplitechgroup.com">AmpliTech Group</a>
+        <a href="https://www.amplitechgroup.com/investor-relations/">Investor relations</a>
+      </span>
+    </div>
+  </div>
+
+  <header class="nav">
+    <div class="wrap">
+      <a class="nav-logo" href="index.html"><img src="logo.png" alt="AGMDC, an AmpliTech Group company"></a>
+      <nav class="nav-links" aria-label="Main">
+        <a class="hide-sm" href="index.html">Home</a>
+        <a class="hide-sm" href="index.html#process">Process</a>
+        <a class="hide-sm" href="index.html#capabilities">Capabilities</a>
+        <a href="products.html" aria-current="page">Products</a>
+        <a class="btn btn-primary" href="mailto:sales@amplitechgroup.com?subject=AGMDC%20Design%20Consultation">Start a design</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="page-head">
+      <div class="wrap">
+        <h1>Off-the-shelf MMICs and low noise blocks</h1>
+        <p>AGMDC offers <span id="total-count">98</span> standard parts from DC to 50 GHz. Most are available as bare die for chip-and-wire assemblies, many also come in DFN or QFN packages, and our low noise blocks ship as complete modules. They are backed by the same RF engineers, test lab, and foundry experience as our custom work, so any part can be screened, modified, or packaged for your program.</p>
+      </div>
+    </section>
+
+    <!-- Creative X-Factor: the Spectrum Part Finder -->
+    <section class="finder" id="finder">
+      <div class="wrap">
+        <h2>Spectrum Part Finder</h2>
+        <p>Choose a band, a form, and a product type. The tables below update as you go. If nothing fits, send us the gap and we will design to it.</p>
+
+        <div class="bandstrip" role="group" aria-label="Filter by frequency band" id="bandstrip">
+          <button type="button" class="b0" data-band="" aria-pressed="true">All<small>DC to 50 GHz</small></button>
+          <button type="button" class="b1" data-band="L" aria-pressed="false">L<small>1 to 2 GHz</small></button>
+          <button type="button" class="b2" data-band="S" aria-pressed="false">S<small>2 to 4 GHz</small></button>
+          <button type="button" class="b3" data-band="C" aria-pressed="false">C<small>4 to 8 GHz</small></button>
+          <button type="button" class="b4" data-band="X" aria-pressed="false">X<small>8 to 12 GHz</small></button>
+          <button type="button" class="b5" data-band="Ku" aria-pressed="false">Ku<small>12 to 18 GHz</small></button>
+          <button type="button" class="b6" data-band="K" aria-pressed="false">K<small>18 to 27 GHz</small></button>
+          <button type="button" class="b7" data-band="Ka" aria-pressed="false">Ka<small>27 to 40 GHz</small></button>
+          <button type="button" class="b8" data-band="Q" aria-pressed="false">Q<small>33 to 50 GHz</small></button>
+          <span class="cap b9">50 GHz</span>
+        </div>
+
+        <div class="controls">
+          <div class="field">
+            <span class="label" id="form-label">Form</span>
+            <div class="seg" role="group" aria-labelledby="form-label" id="formseg">
+              <button type="button" data-form="all" aria-pressed="true">All forms</button>
+              <button type="button" data-form="die" aria-pressed="false">Bare die</button>
+              <button type="button" data-form="pkg" aria-pressed="false">Packaged</button>
+              <button type="button" data-form="lnb" aria-pressed="false">LNB modules</button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="type">Product type</label>
+            <select id="type"></select>
+          </div>
+          <div class="field">
+            <label for="q">Part number or keyword</label>
+            <input id="q" type="search" placeholder="For example AGLNA or Bandpass" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="status" aria-live="polite">
+          <div><strong id="count">98</strong> <span id="count-text">of 98 parts match</span></div>
+          <div class="status-actions">
+            <button type="button" class="linkbtn" id="reset">Clear filters</button>
+            <a class="btn btn-navy" id="custom" href="mailto:sales@amplitechgroup.com">Request a custom design</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="results">
+      <div class="wrap">
+        <div id="results"></div>
+
+        <div class="legend">
+          <p><span class="flag flag-xmw" style="margin-left:0;">X-MWBlock</span> An X-Microwave evaluation block is available for this part.</p>
+          <p><span class="flag flag-dev" style="margin-left:0;">In development</span> Not yet released. Ask us about timing.</p>
+          <p>"R" in a discrete FET part number means on-chip bondable feedback resistors. Packaged forms include DFN, QFN, and surface-mount thin film (TFN).</p>
+          <p>Source: AGMDC components sheet, Rev 14, July 2026. Specifications are subject to change without notice.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tint">
+      <div class="wrap"><div class="about-products">
+        <h2>Don't see the exact part you need?</h2>
+        <p style="margin-top:16px;">Most AGMDC engagements start that way. We design custom MMICs, packaged parts, RF boards, and integrated subsystems to a customer's requirements, and we can screen, modify, or package any part in this guide.</p>
+        <p>Our low noise blocks are a good example. The three standard units cover C, X, and K band, and semi-custom variants can be built quickly to a different frequency plan, gain, or waveguide interface.</p>
+        <p>Tell us your frequency band, gain and noise target, power level, package preference, and timeline. We will come back with a practical path to working hardware.</p>
+        <p style="margin-top:24px;"><a class="btn btn-navy" href="mailto:sales@amplitechgroup.com?subject=AGMDC%20Design%20Consultation">Email our engineers</a> &nbsp; <a href="index.html">Back to the home page</a></p>
+      </div></div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <h3>AGMDC</h3>
+          <p>AmpliTech Group Microwave Design Center<br>Allen Tech Hub, Allen, Texas</p>
+          <p style="margin-top:12px;"><a href="mailto:sales@amplitechgroup.com">sales@amplitechgroup.com</a><br><a href="tel:+16315217831">+1 631.521.7831</a></p>
+        </div>
+        <div>
+          <h3>This site</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#process">Process</a></li>
+            <li><a href="index.html#capabilities">Capabilities</a></li>
+            <li><a href="index.html#markets">Markets</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Products</h3>
+          <ul>
+            <li><a href="products.html?form=die">Bare die MMICs</a></li>
+            <li><a href="products.html?form=pkg">Packaged MMICs</a></li>
+            <li><a href="products.html?form=lnb">Low noise blocks</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>AmpliTech Group</h3>
+          <ul>
+            <li><a href="https://www.amplitechgroup.com">Corporate site</a></li>
+            <li><a href="https://www.amplitechgroup.com/investor-relations/">Investor relations</a></li>
+            <li><a href="https://www.amplitechgroup.com/news-and-events/">News and events</a></li>
+            <li><a href="https://www.agmdcinc.com">Official AGMDC site</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="footer-note">Concept page for a class project. It is not the official AGMDC website, which is at agmdcinc.com. Specifications are subject to change without notice.</p>
+    </div>
+  </footer>
+
+  <script>
+  /* ------------------------------------------------------------------
+     Product data, transcribed from the AGMDC components sheet (Rev 14).
+     One part per line, fields separated by "|".
+     A trailing ‡ on a part number = X-MWBlock available. † = in development.
+     ------------------------------------------------------------------ */
+  const CATALOG = [
+    { id: "lna", name: "Low noise amplifiers", freq: 1, pkg: 7,
+      cols: ["Part no.", "Freq (GHz)", "Gain (dB)", "NF (dB)", "P1dB (dBm)", "Bias (V)", "Bias (mA)", "Package"],
+      rows: `AGLNA004064†|0.4-6.4|16|0.5|+19.0|4.0|45|Die/DFN
+AGLNA008020†|0.8-2.0|31.0|0.8|+9.5|5.0|60|Die
+AGLNA013048‡|1.3-4.8|32.5|0.7|+11.6|4.0|31|Die/QFN
+AGLNA010064B|1.0-6.4|18.0|1.0|+17.0|5.0|65|Die/DFN
+AGLNA010180|1.0-18.0|12.5|1.8|+13.0|4.0|25|Die/DFN
+AGLNA014221|1.4-22.1|16.0|2.0|+15.0|10.0|50|Die
+AGLNA014222|1.4-22.2|16.0|2.0|+12.0|10.0|50|Die
+AGLNA014223|1.4-22.3|16.0|1.8|+12.0|10.0|50|Die
+AGLNA018047‡|1.8-4.7|26.5|0.8|+11.0|5.0|25|Die
+AGLNA020150|2.0-15.0|15.0|2.0|+7.0|3.0|20|Die
+AGLNA035082‡|3.5-8.2|26.5|0.9|+10.0|5.0|25|Die
+AGLNA035085|3.5-8.5|21.4|0.8|+2.5|2.0|20|Die
+AGLNA070140|7.0-14.0|24.0|0.9|+13.0|2.0|45|Die
+AGLNA140240|14.0-24.0|24.0|1.3|+11.0|2.0|40|Die
+AGLNA145245‡|14.5-24.5|23.0|1.2|-4.0|0.5|36|Die
+AGLNA145255|14.5-24.5|23.5|1.4|+11.0|2/4|44|Die/QFN
+AGLNA160410|16.0-41.0|27.0|2.1|+20.0|4.0|90|Die
+AGLNA160420|16.0-42.0|21.0|1.5|-3.0|0.5|36|Die
+AGLNA180405|18.0-40.5|24.0|2.0|+6.0|12.0|20|Die
+AGLNA220340|22.0-34.0|25.0|1.6|+10.0|2.0|50|Die` },
+
+    { id: "mpa", name: "Medium power amplifiers", freq: 1, pkg: 7,
+      cols: ["Part no.", "Freq (GHz)", "Gain (dB)", "PAE (%)", "Psat (dBm)", "Bias (V)", "Bias (mA)", "Package"],
+      rows: `AGMPA078161|9.5-13.5|30|20|29|6|715|Die
+AGMPA080160|9.5-13.5|31|33|32|6|1420|Die
+AGMPA086135|9.5-13.5|32|30|32.5|6|840|Die
+AGMPA165215‡|17-20|20|30|35|28|100|Die
+AGMPA165215B|17-20|21|26|35|28|100|Die
+AGMPA171228|17.2-21.2|30|35|37|20|200|Die
+AGMPA172212|17.2-21.2|22|30|35|18|300|Die
+AGMPA250311|25.0-31.1|28|31|35|18|200|Die` },
+
+    { id: "fet", name: "Discrete FETs", range: [0, 50], pkg: 6,
+      cols: ["Part no.", "Type", "Freq max (GHz)", "Gmax (dB) at 10 GHz", "NF (dB) at 10 GHz", "Bias (V)", "Package"],
+      rows: `DGAD8160|8x20 GaAs|50|15|0.48|4|Die
+DGAD8160R|8x20 GaAs|50|15|0.48|4|Die
+DGAD8320|8x40 GaAs|50|15|0.48|4|Die
+DGAD8320R|8x40 GaAs|50|15|0.48|4|Die
+DGAD8400|8x50 GaAs|50|16|0.44|4|Die
+DGAD8400R|8x50 GaAs|50|16|0.44|4|Die
+DGAD8480|8x60 GaAs|50|16|0.44|4|Die
+DGAD8480R|8x60 GaAs|50|16|0.44|4|Die
+DGAD8640|8x80 GaAs|50|16.4|0.50|4|Die
+DGAD8640R|8x80 GaAs|50|16.4|0.50|4|Die` },
+
+    { id: "ctl", name: "Control components", freq: 2, pkg: 6,
+      cols: ["Part no.", "Type", "Freq (GHz)", "Insertion loss (dB)", "Return loss (dB)", "Isolation (dB)", "Package"],
+      rows: `AGSW017022|SPDT Switch|17-21|1.0|17|13|Die` },
+
+    { id: "atn", name: "Attenuators and terminations", freq: 2, pkg: 5,
+      cols: ["Part no.", "Type", "Freq (GHz)", "Loss (dB)", "Min. RL (dB)", "Package"],
+      rows: `AGTRM050|Termination|DC-50|-|18|Die/DFN
+AGATN00|Attenuator / Thru line|DC-50|0.25|15|Die/DFN
+AGATN01|Attenuator|DC-50|1.0|15|Die/DFN
+AGATN02|Attenuator|DC-50|2.0|15|Die/DFN
+AGATN03|Attenuator|DC-50|3.0|15|Die/DFN
+AGATN04|Attenuator|DC-50|4.0|15|Die/DFN
+AGATN05|Attenuator|DC-50|5.0|15|Die/DFN
+AGATN06|Attenuator|DC-50|6.0|15|Die/DFN
+AGATN07|Attenuator|DC-50|7.0|15|Die/DFN
+AGATN08|Attenuator|DC-50|8.0|15|Die/DFN
+AGATN09|Attenuator|DC-50|9.0|15|Die/DFN
+AGATN10|Attenuator|DC-50|10.0|15|Die/DFN` },
+
+    { id: "flt", name: "Filters", freq: 2, pkg: 6,
+      cols: ["Part no.", "Type", "Freq (GHz)", "Loss (dB)", "Min. RL (dB)", "Rejection points (GHz)", "Package"],
+      rows: `AGLPF040|Lowpass|DC-4|1.0|15|20 dB at 5.0|Die/DFN
+AGRLPF040|R-Lowpass|DC-4|1.1|20|20 dB at 7.5|Die/DFN
+AGLPF080‡|Lowpass|DC-8|2.4|15|20 dB at 9.7|Die/DFN
+AGLPF100|Lowpass|DC-10|1.0|18|20 dB at 12.7|Die/DFN
+AGRLPF100|R-Lowpass|DC-10|1.1|20|20 dB at 14.0|Die/DFN
+AGLPF250|Lowpass|DC-25|1.0|18|20 dB at 37.0|Die/DFN
+AGRLPF250|R-Lowpass|DC-25|1.1|20|15 dB at 37.0|Die/DFN
+AGBPF022|Bandpass|2.1-2.3|4.3|20|20 dB at 1.6 and 2.7|Die/DFN
+AGBPF023|Bandpass|2.0-2.4|2.7|20|20 dB at 1.4 and 2.9|Die/DFN
+AGBPF024|Bandpass|1.7-2.7|1.4|20|20 dB at 1.0 and 3.4|Die/DFN
+AGBPF045†|Bandpass|3.4-5.6|0.8|18|20 dB at 1.5 and 8.5|Die/DFN
+AGBPF063|Bandpass|3.6-9.0|0.6|18|20 dB at 1.6 and 16.8|Die/DFN
+AGBPF069|Bandpass|6.5-7.6|1.05|23|20 dB at 6.1 and 8.0|SMT TFN
+AGBPF078‡|Bandpass|7.1-8.5|1.4|18|20 dB at 4.8 and 12.5|Die/DFN
+AGBPF100|Bandpass|8.0-12.0|1.0|20|20 dB at 4.9 and 18.2|Die/DFN
+AGBPF118|Bandpass|10.7-12.9|1.6|20|20 dB at 8.1 and 15.3|Die/DFN
+AGBPF150|Bandpass|12.0-18.0|1.0|20|20 dB at 8.7 and 23.7|Die/DFN
+AGBPF186|Bandpass|17.8-19.3|5.6|25|20 dB at 16.7 and 20.5|Die
+AGBPF195‡|Bandpass|17.7-21.2|1.5|18|20 dB at 13.3 and 24.8|Die/DFN
+AGBPF197|Bandpass|18.9-20.4|5.2|20|20 dB at 17.3 and 21.7|Die
+AGBPF203|Bandpass|19.5-21.0|5.5|20|20 dB at 18.3 and 22.4|Die
+AGBPF262|Bandpass|25.5-27.0|5.1|20|20 dB at 24.2 and 28.3|Die
+AGBPF263|Bandpass|20.5-32.0|0.7|20|20 dB at 14.4 and 63.0|Die/DFN
+AGBPF295|Bandpass|27.0-32.0|1.1|20|20 dB at 20.4 and 50.0|Die/DFN
+AGBPF520†|Bandpass|42.0-62.0|1.1|16|20 dB at 30.0 and 74.0|Die
+AGBSF280|Bandstop|25.5-30.3|10|-|3 dB at 25 and 30.5|DFN
+AGBSF295|Bandstop|27.1-32.0|10|-|3 dB at 25.9 and 32.9|Die` },
+
+    { id: "eq", name: "Equalizers", freq: 2, pkg: 5,
+      cols: ["Part no.", "Type", "Freq (GHz)", "Loss (dB)", "Slope (dB)", "Package"],
+      rows: `AGEQ03†|Equalizer|DC-50|4.0|3|Die/DFN
+AGEQ07†|Equalizer|DC-50|9.0|7|Die/DFN` },
+
+    { id: "sup", name: "Bias tees and resistor ladders", freq: 2, pkg: 5,
+      cols: ["Part no.", "Type", "Freq (GHz)", "Loss (dB)", "Min. RL (dB)", "Package"],
+      rows: `AGBT015200A|Bias Tee Left|1.5-20|0.8|15|Die
+AGBT015200B|Bias Tee Right|1.5-20|0.8|15|Die
+AGRES0600|Resistor Ladder 600|-|-|-|Die
+AGRES2400|Resistor Ladder 2.4K|-|-|-|Die
+AGRES3000|Resistor Ladder 3K|-|-|-|Die` },
+
+    { id: "cpl", name: "Couplers and power combiners", freq: 2, pkg: 5,
+      cols: ["Part no.", "Type", "Freq (GHz)", "Loss (dB)", "Min. RL (dB)", "Package"],
+      rows: `AGBAL170210|Balun|17-20|0.7|25|Die
+AGCPL080120|Lange Coupler|8-12|0.3|18|Die
+AGCPL180400|Lange Coupler|18-40|0.3|18|Die
+AGCPL060180|Quad Coupler|6-18|0.4|17|Die
+AGSP2050200|2-way Wilkinson|5-20|0.5|15|Die
+AGSP2020260|2-way Wilkinson|2-26|0.65|13|Die
+AGSP4170300|4-way Wilkinson|17-30|0.5|15|Die` },
+
+    { id: "tfn", name: "Thin film products", freq: 2, pkg: 5,
+      cols: ["Part no.", "Type", "Freq (GHz)", "Loss (dB)", "Min. RL (dB)", "Package"],
+      rows: `AGN001|RF Transition|DC-50|0.2|25|TFN
+AGN001-Cal|RF Cals|DC-50|-|-|TFN
+AGN002-5|RF Coupler|6-12|1.5|20|TFN` },
+
+    { id: "lnb", name: "Low noise blocks", freq: 2, pkg: 7,
+      note: "Semi-custom LNB variants can be built quickly to a customer's frequency plan, gain, and interface requirements.",
+      cols: ["Part no.", "Type", "RF freq (GHz)", "Noise temp (K)", "Gain (dB)", "IF (GHz)", "RF input", "Package"],
+      rows: `APT5-LNB-06870705|C-band low noise block|6.88-7.05|45|62|2.29-2.11|CPR-137|Module
+APT5-LNB-07750850|X-band low noise block|7.75-8.50|42|50/40|0.80-1.55|WR-112|Module
+APT5-LNB-20202120|K-band low noise block|20.2-21.2|101|56|1.00-2.00|WR-42|Module` }
+  ];
+
+  const BANDS = {
+    L: [1, 2], S: [2, 4], C: [4, 8], X: [8, 12],
+    Ku: [12, 18], K: [18, 27], Ka: [27, 40], Q: [33, 50]
+  };
+  const FORM_NAMES = { all: "any form", die: "bare die", pkg: "packaged", lnb: "LNB module" };
+
+  /* ---------- Parse the catalog once ---------- */
+  function parseRange(text) {
+    const m = String(text).trim().match(/^(DC|[\d.]+)\s*-\s*([\d.]+)$/i);
+    if (!m) return null;
+    return [m[1].toUpperCase() === "DC" ? 0 : parseFloat(m[1]), parseFloat(m[2])];
+  }
+
+  const PARTS = [];
+  CATALOG.forEach(function (cat) {
+    cat.rows.trim().split("\n").forEach(function (line) {
+      const cells = line.split("|").map(function (c) { return c.trim(); });
+      let part = cells[0];
+      const dev = part.indexOf("†") !== -1;
+      const xmw = part.indexOf("‡") !== -1;
+      part = part.replace(/[†‡]/g, "");
+      const pkg = cells[cat.pkg];
+      PARTS.push({
+        cat: cat.id, part: part, cells: cells, dev: dev, xmw: xmw, pkg: pkg,
+        range: cat.range || parseRange(cells[cat.freq]),
+        isDie: /Die/.test(pkg),
+        isPkg: /DFN|QFN|TFN/.test(pkg),
+        isLnb: cat.id === "lnb",
+        text: (part + " " + cells.slice(1).join(" ") + " " + cat.name).toLowerCase()
+      });
+    });
+  });
+
+  /* ---------- State, read from the URL so links from the home page land filtered ---------- */
+  const params = new URLSearchParams(location.search);
+  const state = {
+    band: BANDS[params.get("band")] ? params.get("band") : "",
+    form: FORM_NAMES[params.get("form")] ? params.get("form") : "all",
+    type: CATALOG.some(function (c) { return c.id === params.get("type"); }) ? params.get("type") : "all",
+    q: params.get("q") || ""
+  };
+
+  const el = {
+    bands: document.querySelectorAll("#bandstrip button"),
+    forms: document.querySelectorAll("#formseg button"),
+    type: document.getElementById("type"),
+    q: document.getElementById("q"),
+    count: document.getElementById("count"),
+    countText: document.getElementById("count-text"),
+    total: document.getElementById("total-count"),
+    results: document.getElementById("results"),
+    custom: document.getElementById("custom"),
+    reset: document.getElementById("reset")
+  };
+
+  el.total.textContent = PARTS.length;
+  el.type.innerHTML = '<option value="all">All product types</option>' +
+    CATALOG.map(function (c) { return '<option value="' + c.id + '">' + c.name + '</option>'; }).join("");
+
+  function matches(p) {
+    if (state.type !== "all" && p.cat !== state.type) return false;
+    if (state.form === "die" && !p.isDie) return false;
+    if (state.form === "pkg" && !p.isPkg) return false;
+    if (state.form === "lnb" && !p.isLnb) return false;
+    if (state.band) {
+      if (!p.range) return false;
+      const b = BANDS[state.band];
+      if (!(p.range[0] < b[1] && p.range[1] > b[0])) return false;
+    }
+    if (state.q && p.text.indexOf(state.q.toLowerCase()) === -1) return false;
+    return true;
+  }
+
+  function esc(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  function describe() {
+    const bits = [];
+    if (state.band) bits.push(state.band + " band (" + BANDS[state.band][0] + " to " + BANDS[state.band][1] + " GHz)");
+    if (state.form !== "all") bits.push(FORM_NAMES[state.form]);
+    if (state.type !== "all") bits.push(CATALOG.find(function (c) { return c.id === state.type; }).name.toLowerCase());
+    if (state.q) bits.push('"' + state.q + '"');
+    return bits;
+  }
+
+  function customLink(found) {
+    const bits = describe();
+    const subject = "AGMDC Design Consultation" + (state.band ? ": " + state.band + " band" : "");
+    const body = [
+      "Hello AGMDC,",
+      "",
+      "I used the Spectrum Part Finder and would like to discuss a custom or modified part.",
+      "",
+      "My search: " + (bits.length ? bits.join(", ") : "all parts"),
+      "Standard parts found: " + found,
+      "",
+      "Frequency band:",
+      "Gain and noise target:",
+      "Power level:",
+      "Package preference:",
+      "Timeline:",
+      ""
+    ].join("\n");
+    return "mailto:sales@amplitechgroup.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+  }
+
+  function render() {
+    const found = PARTS.filter(matches);
+    let html = "";
+
+    CATALOG.forEach(function (cat) {
+      const rows = found.filter(function (p) { return p.cat === cat.id; });
+      if (!rows.length) return;
+      html += '<div class="cat"><h3>' + esc(cat.name) + '<span>' + rows.length +
+              (rows.length === 1 ? " part" : " parts") + '</span></h3>';
+      html += '<div class="tablewrap"><table><thead><tr>' +
+              cat.cols.map(function (c) { return "<th scope=\"col\">" + esc(c) + "</th>"; }).join("") +
+              '<th scope="col">Ask</th></tr></thead><tbody>';
+      rows.forEach(function (p) {
+        html += "<tr>";
+        p.cells.forEach(function (c, i) {
+          if (i === 0) {
+            html += '<td class="part">' + esc(p.part) +
+              (p.xmw ? '<span class="flag flag-xmw">X-MWBlock</span>' : "") +
+              (p.dev ? '<span class="flag flag-dev">In development</span>' : "") + "</td>";
+          } else {
+            html += "<td>" + esc(c === "-" ? "–" : c.replace(/^-(?=\d)/, "−")) + "</td>";
+          }
+        });
+        html += '<td><a href="mailto:sales@amplitechgroup.com?subject=' +
+                encodeURIComponent("AGMDC Inquiry: " + p.part) + '">Inquire</a></td></tr>';
+      });
+      html += "</tbody></table></div>";
+      if (cat.note) html += '<p class="cat-note">' + esc(cat.note) + "</p>";
+      html += "</div>";
+    });
+
+    if (!found.length) {
+      const bits = describe();
+      html = '<div class="empty"><h3>No standard part covers that yet.</h3>' +
+             "<p>Nothing in the catalog matches " + esc(bits.join(", ")) +
+             ". Most AGMDC engagements start exactly here. Send us the requirement and we will reply with a practical path to working hardware.</p>" +
+             '<a class="btn btn-primary" href="' + customLink(0) + '">Request a custom design</a></div>';
+    }
+
+    el.results.innerHTML = html;
+    el.count.textContent = found.length;
+    el.countText.textContent = "of " + PARTS.length + (found.length === 1 ? " parts matches" : " parts match");
+    el.custom.href = customLink(found.length);
+
+    el.bands.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.band === state.band)); });
+    el.forms.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.form === state.form)); });
+    el.type.value = state.type;
+    if (el.q.value !== state.q) el.q.value = state.q;
+
+    const next = new URLSearchParams();
+    if (state.band) next.set("band", state.band);
+    if (state.form !== "all") next.set("form", state.form);
+    if (state.type !== "all") next.set("type", state.type);
+    if (state.q) next.set("q", state.q);
+    const qs = next.toString();
+    history.replaceState(null, "", qs ? "?" + qs : location.pathname);
+  }
+
+  el.bands.forEach(function (b) {
+    b.addEventListener("click", function () { state.band = b.dataset.band; render(); });
+  });
+  el.forms.forEach(function (b) {
+    b.addEventListener("click", function () { state.form = b.dataset.form; render(); });
+  });
+  el.type.addEventListener("change", function () { state.type = el.type.value; render(); });
+  el.q.addEventListener("input", function () { state.q = el.q.value.trim(); render(); });
+  el.reset.addEventListener("click", function () {
+    state.band = ""; state.form = "all"; state.type = "all"; state.q = "";
+    render();
+  });
+
+  render();
+  </script>
+  <script src="chatbot.js"></script>
+</body>
+</html>
