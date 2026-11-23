@@ -10,6 +10,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Source+Serif+4:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Datasheet links on the product tables */
+    td.part a { color: var(--blue-deep); font-weight: 600; }
+    td.part a:hover { color: var(--blue); }
+    tr.has-ds { cursor: pointer; }
+    tbody tr.has-ds:hover td { background: #e3edfb; }
+    .pdf-tag {
+      display: inline-block; margin-left: 8px; padding: 1px 6px;
+      font-size: 0.7rem; font-weight: 600; border-radius: 3px;
+      border: 1px solid #9db7dd; color: var(--blue-deep); vertical-align: 1px;
+    }
+  </style>
 </head>
 <body>
 
@@ -100,6 +112,7 @@
         <div id="results"></div>
 
         <div class="legend">
+          <p><span class="pdf-tag" style="margin-left:0;">PDF</span> Click a row or its part number to open the datasheet in a new tab.</p>
           <p><span class="flag flag-xmw" style="margin-left:0;">X-MWBlock</span> An X-Microwave evaluation block is available for this part.</p>
           <p><span class="flag flag-dev" style="margin-left:0;">In development</span> Not yet released. Ask us about timing.</p>
           <p>"R" in a discrete FET part number means on-chip bondable feedback resistors. Packaged forms include DFN, QFN, and surface-mount thin film (TFN).</p>
@@ -300,6 +313,71 @@ APT5-LNB-07750850|X-band low noise block|7.75-8.50|42|50/40|0.80-1.55|WR-112|Mod
 APT5-LNB-20202120|K-band low noise block|20.2-21.2|101|56|1.00-2.00|WR-42|Module` }
   ];
 
+  /* ------------------------------------------------------------------
+     Datasheets. Files live in the "datasheets" folder of the repo.
+     DS_EXACT maps one part to one file. DS_FAMILY maps a part-number
+     prefix to a shared family datasheet. A part in neither list has no link.
+     ------------------------------------------------------------------ */
+  const DS_DIR = "datasheets/";
+  const DS_EXACT = {
+    "AGLNA004064": "AGLNA004064_Datasheet.pdf",
+    "AGLNA008020": "AGLNA008020_Datasheet.pdf",
+    "AGLNA013048": "AGLNA013048_Datasheet.pdf",
+    "AGLNA010180": "AGLNA010180_Datasheet.pdf",
+    "AGLNA014221": "AGLNA014221_Datasheet.pdf",
+    "AGLNA014222": "AGLNA014222_Datasheet.pdf",
+    "AGLNA018047": "AGLNA018047_Datasheet.pdf",
+    "AGLNA020150": "AGLNA020150_Datasheet.pdf",
+    "AGLNA035082": "AGLNA035082_Datasheet.pdf",
+    "AGLNA035085": "AGLNA035085_Datasheet.pdf",
+    "AGLNA070140": "AGLNA070140_Datasheet_v02.pdf",
+    "AGLNA140240": "AGLNA140240_Datasheet.pdf",
+    "AGLNA145245": "AGLNA145245_Datasheet.pdf",
+    "AGLNA160410": "AGLNA160410_Datasheet.pdf",
+    "AGLNA160420": "AGLNA160420_Datasheet.pdf",
+    "AGLNA180405": "AGLNA180405_Datasheet.pdf",
+    "AGLNA220340": "AGLNA220340_Datasheet.pdf",
+    "AGMPA078161": "AGMPA078161_Datasheet.pdf",
+    "AGMPA080160": "AGMPA08016_Datasheet.pdf",
+    "AGMPA086135": "AGMPA086135_Datasheet.pdf",
+    "AGMPA165215": "AGMPA165215_Datasheet.pdf",
+    "AGMPA165215B": "AGMPA165215B_Datasheet.pdf",
+    "AGMPA171228": "AGMPA171228_Datasheet.pdf",
+    "AGMPA172212": "AGMPA172212_Datasheet.pdf",
+    "AGMPA250311": "AGMPA250311_Datasheet_v00.pdf",
+    "AGSW017022": "AGSW017022_Datasheet.pdf",
+    "AGBPF069": "AGBPF069_Datasheet.pdf",
+    "AGBT015200A": "AGBTA015200_Datasheet.pdf",
+    "AGBT015200B": "AGBTB015200_Datasheet.pdf",
+    "AGBAL170210": "AGBAL170210_Datasheet.pdf",
+    "AGCPL080120": "AGCPL080120_Datasheet.pdf",
+    "AGCPL180400": "AGCPL180400_Datasheet.pdf",
+    "AGCPL060180": "AGCPL060180_Datasheet.pdf",
+    "AGSP2050200": "AGSP2050200_Datasheet.pdf",
+    "AGSP2020260": "AGSP2020260_Datasheet.pdf",
+    "AGSP4170300": "AGSP4170300_Datasheet.pdf",
+    "AGN001": "AGN001_Datasheet.pdf",
+    "AGN002-5": "AGN002-5_Datasheet.pdf",
+    "APT5-LNB-07750850": "APT5-LNB-07750850.pdf",
+    "APT5-LNB-20202120": "APT5-LNB-20202120.pdf"
+  };
+  const DS_FAMILY = [
+    [/^AGATN\d/, "AGATNxx_Datasheet.pdf"],
+    [/^AGTRM/, "AGTRMxxx_Datasheet.pdf"],
+    [/^AGLPF/, "AGLPFxxx_Datasheet.pdf"],
+    [/^AGBPF/, "AGBPFxxx_Datasheet.pdf"],
+    [/^AGBSF/, "AGBSFxxx_Datasheet.pdf"],
+    [/^AGRES/, "AGRESxxx_Datasheet.pdf"],
+    [/^DGAD/, "DGADxxxx_Datasheet.pdf"]
+  ];
+  function datasheet(part) {
+    if (DS_EXACT[part]) return DS_DIR + DS_EXACT[part];
+    for (let i = 0; i < DS_FAMILY.length; i++) {
+      if (DS_FAMILY[i][0].test(part)) return DS_DIR + DS_FAMILY[i][1];
+    }
+    return "";
+  }
+
   const BANDS = {
     L: [1, 2], S: [2, 4], C: [4, 8], X: [8, 12],
     Ku: [12, 18], K: [18, 27], Ka: [27, 40], Q: [33, 50]
@@ -324,6 +402,7 @@ APT5-LNB-20202120|K-band low noise block|20.2-21.2|101|56|1.00-2.00|WR-42|Module
       const pkg = cells[cat.pkg];
       PARTS.push({
         cat: cat.id, part: part, cells: cells, dev: dev, xmw: xmw, pkg: pkg,
+        ds: datasheet(part),
         range: cat.range || parseRange(cells[cat.freq]),
         isDie: /Die/.test(pkg),
         isPkg: /DFN|QFN|TFN/.test(pkg),
@@ -420,10 +499,12 @@ APT5-LNB-20202120|K-band low noise block|20.2-21.2|101|56|1.00-2.00|WR-42|Module
               cat.cols.map(function (c) { return "<th scope=\"col\">" + esc(c) + "</th>"; }).join("") +
               '<th scope="col">Ask</th></tr></thead><tbody>';
       rows.forEach(function (p) {
-        html += "<tr>";
+        html += p.ds ? '<tr class="has-ds" data-href="' + esc(p.ds) + '">' : "<tr>";
         p.cells.forEach(function (c, i) {
           if (i === 0) {
-            html += '<td class="part">' + esc(p.part) +
+            html += '<td class="part">' +
+              (p.ds ? '<a href="' + esc(p.ds) + '" target="_blank" rel="noopener" title="Open the datasheet PDF">' +
+                      esc(p.part) + '</a><span class="pdf-tag">PDF</span>' : esc(p.part)) +
               (p.xmw ? '<span class="flag flag-xmw">X-MWBlock</span>' : "") +
               (p.dev ? '<span class="flag flag-dev">In development</span>' : "") + "</td>";
           } else {
@@ -476,6 +557,12 @@ APT5-LNB-20202120|K-band low noise block|20.2-21.2|101|56|1.00-2.00|WR-42|Module
   el.reset.addEventListener("click", function () {
     state.band = ""; state.form = "all"; state.type = "all"; state.q = "";
     render();
+  });
+
+  el.results.addEventListener("click", function (e) {
+    if (e.target.closest("a")) return;
+    const row = e.target.closest("tr.has-ds");
+    if (row) window.open(row.dataset.href, "_blank", "noopener");
   });
 
   render();
