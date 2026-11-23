@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>FAQ | AGMDC</title>
+  <meta name="description" content="Frequently asked questions about AGMDC: custom MMIC design, standard products, low noise blocks, testing, and how to start a project.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Source+Serif+4:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* FAQ page only. Everything else comes from styles.css. */
+    .faq { padding: 56px 0 72px; }
+    .faq-group {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 12px 48px;
+      padding: 36px 0;
+      border-top: 3px solid var(--navy);
+    }
+    .faq-group h2 { font-size: 1.6rem; }
+    .faq-group p.count { margin-top: 6px; color: var(--muted); font-size: 0.93rem; }
+    .faq details { border-bottom: 1px solid var(--line); }
+    .faq details:first-child { border-top: 1px solid var(--line); }
+    .faq summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 20px;
+      padding: 17px 4px;
+      font-weight: 600;
+      font-size: 1.06rem;
+      color: var(--navy);
+    }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after {
+      content: "+";
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      line-height: 1;
+      color: var(--blue);
+      flex-shrink: 0;
+    }
+    .faq details[open] summary::after { content: "\2212"; }
+    .faq summary:hover { color: var(--blue-deep); }
+    .faq .answer { padding: 0 4px 20px; max-width: 68ch; color: var(--ink); }
+    .faq-tools { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; margin-bottom: 28px; }
+    @media (max-width: 860px) {
+      .faq-group { grid-template-columns: 1fr; padding: 28px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="utility">
+    <div class="wrap">
+      <span class="tagline">A division of AmpliTech Group, Inc. (NASDAQ: AMPG)</span>
+      <span>
+        <a href="https://www.amplitechgroup.com">AmpliTech Group</a>
+        <a href="https://www.amplitechgroup.com/investor-relations/">Investor relations</a>
+      </span>
+    </div>
+  </div>
+
+  <header class="nav">
+    <div class="wrap">
+      <a class="nav-logo" href="index.html"><img src="logo.png" alt="AGMDC, an AmpliTech Group company"></a>
+      <nav class="nav-links" aria-label="Main">
+        <a class="hide-sm" href="index.html">Home</a>
+        <a class="hide-sm" href="index.html#capabilities">Capabilities</a>
+        <a href="products.html">Products</a>
+        <a href="faq.html" aria-current="page">FAQ</a>
+        <a class="btn btn-primary hide-sm" href="mailto:sales@amplitechgroup.com?subject=AGMDC%20Design%20Consultation">Start a design</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="page-head">
+      <div class="wrap">
+        <h1>Frequently asked questions</h1>
+        <p>Answers to the questions RF engineers and buyers ask us most, about custom design, our standard parts, and how to get a project started. For anything else, use the chat button on this page or <a href="mailto:sales@amplitechgroup.com?subject=AGMDC%20Design%20Consultation">email our engineers</a>.</p>
+      </div>
+    </section>
+
+    <section class="faq">
+      <div class="wrap">
+        <div class="faq-tools">
+          <button type="button" class="linkbtn" id="open-all">Open all answers</button>
+          <button type="button" class="linkbtn" id="close-all">Close all</button>
+        </div>
+        <div class="faq-group">
+          <div>
+            <h2>About AGMDC</h2>
+            <p class="count">5 questions</p>
+          </div>
+          <div>
+            <details open>
+              <summary>What is AGMDC?</summary>
+              <p class="answer">AGMDC is the AmpliTech Group Microwave Design Center, the MMIC and microwave design division of AmpliTech Group, Inc. (NASDAQ: AMPG). We design custom MMICs, packaged parts, RF modules, and low noise blocks, and we offer a catalog of standard parts from DC to 50 GHz.</p>
+            </details>
+            <details>
+              <summary>Where is AGMDC located?</summary>
+              <p class="answer">We are at the Allen Tech Hub in Allen, Texas, in the Dallas Telecom Corridor. Simulation, layout, prototype assembly, and test all happen there.</p>
+            </details>
+            <details>
+              <summary>How is AGMDC related to AmpliTech Group?</summary>
+              <p class="answer">AGMDC is a division of AmpliTech Group, not a separate company. It is the group&#x27;s design engine. AmpliTech Group supplies low-noise RF products worldwide under ISO9001:2015 quality systems.</p>
+            </details>
+            <details>
+              <summary>Who leads AGMDC?</summary>
+              <p class="answer">Dr. Jim Carroll is the Division President of AGMDC.</p>
+            </details>
+            <details>
+              <summary>Which markets do you serve?</summary>
+              <p class="answer">Satellite communications, defense and aerospace, and wireless infrastructure including 5G. We also support space, quantum, and sensing applications.</p>
+            </details>
+          </div>
+        </div>
+        <div class="faq-group">
+          <div>
+            <h2>Custom design</h2>
+            <p class="count">6 questions</p>
+          </div>
+          <div>
+            <details>
+              <summary>What custom design work do you take on?</summary>
+              <p class="answer">Custom MMICs, packages, RF boards, and RF modules, plus subsystems such as low noise blocks and transceivers. We can also screen, modify, or package any part in our standard catalog.</p>
+            </details>
+            <details>
+              <summary>What does a custom design project look like?</summary>
+              <p class="answer">It moves through five steps. We simulate the circuit, lay out the MMIC or board, assemble prototypes with epoxy die attach and wirebonding, measure the hardware, and then release it to production.</p>
+            </details>
+            <details>
+              <summary>Which semiconductor processes and foundries do you work with?</summary>
+              <p class="answer">We design on GaAs, GaN, and InP processes using foundry process design kits. Our foundry partners are BAE Systems, GCS, HRL Laboratories, MACOM, Northrop Grumman, Qorvo, UMS, WIN Semiconductors, and Wolfspeed.</p>
+            </details>
+            <details>
+              <summary>What frequency range do you cover?</summary>
+              <p class="answer">Design, simulation, and measurement from DC to 50 GHz. That spans L, S, C, X, Ku, K, Ka, and Q band.</p>
+            </details>
+            <details>
+              <summary>What can you test in house?</summary>
+              <p class="answer">S-parameters, noise figure, power, phase noise, and spurious to 50 GHz, on wafer or in a test fixture. We also run over-temperature testing, burn-in, vibration, and leak testing, and we work with partners for environmental and FCC certification.</p>
+            </details>
+            <details>
+              <summary>Can you take a design into production?</summary>
+              <p class="answer">Yes. For a custom MMIC that means a mask set, wafer probe, and production release. RF module assembly and test runs from single prototypes to more than 1,000 units through qualified local assembly partners.</p>
+            </details>
+          </div>
+        </div>
+        <div class="faq-group">
+          <div>
+            <h2>Products</h2>
+            <p class="count">7 questions</p>
+          </div>
+          <div>
+            <details>
+              <summary>What standard products do you offer?</summary>
+              <p class="answer">98 standard parts. They include low noise amplifiers from 0.4 to 42 GHz, medium power amplifiers, discrete GaAs FETs, an SPDT switch, attenuators and terminations, lowpass, bandpass, and bandstop filters, equalizers, bias tees, resistor ladders, couplers and power combiners, thin film parts, and low noise blocks.</p>
+            </details>
+            <details>
+              <summary>What forms do the parts come in?</summary>
+              <p class="answer">Most parts are available as bare die for chip-and-wire assemblies. Many are also offered in DFN or QFN packages or as surface-mount thin film parts. Low noise blocks ship as complete modules.</p>
+            </details>
+            <details>
+              <summary>Which low noise blocks do you offer?</summary>
+              <p class="answer">Three standard units for the receive side of a satellite ground station. The C-band LNB covers 6.88 to 7.05 GHz with a 45 K noise temperature and 62 dB gain. The X-band LNB covers 7.75 to 8.50 GHz with a 42 K noise temperature. The K-band LNB covers 20.2 to 21.2 GHz with a 101 K noise temperature and 56 dB gain.</p>
+            </details>
+            <details>
+              <summary>Can you customize a low noise block?</summary>
+              <p class="answer">Yes. Semi-custom LNB variants can be built quickly to your frequency plan, gain, and interface requirements.</p>
+            </details>
+            <details>
+              <summary>How do I find a part for my frequency band?</summary>
+              <p class="answer">Use the Spectrum Part Finder on the <a href="products.html">products page</a>. Pick a band, a form, and a product type, and the tables show only the parts that fit. If nothing fits, the finder drafts a custom design request for you.</p>
+            </details>
+            <details>
+              <summary>What do the X-MWBlock and In development labels mean?</summary>
+              <p class="answer">X-MWBlock means the part is also available as an X-Microwave block for prototyping. In development means the part is not released yet, so ask us about timing.</p>
+            </details>
+            <details>
+              <summary>Are the published specifications final?</summary>
+              <p class="answer">The numbers come from the AGMDC components sheet, Rev 14, July 2026, and are subject to change without notice. Confirm current values with us before you design a part in.</p>
+            </details>
+          </div>
+        </div>
+        <div class="faq-group">
+          <div>
+            <h2>Ordering and support</h2>
+            <p class="count">2 questions</p>
+          </div>
+          <div>
+            <details>
+              <summary>How do I get pricing, lead time, or a data sheet?</summary>
+              <p class="answer">Email <a href="mailto:sales@amplitechgroup.com">sales@amplitechgroup.com</a> or call <a href="tel:+16315217831">+1 631.521.7831</a> with the part number and the quantity you need. Pricing is not published on this site.</p>
+            </details>
+            <details>
+              <summary>How do I start a custom design conversation?</summary>
+              <p class="answer">Email <a href="mailto:sales@amplitechgroup.com">sales@amplitechgroup.com</a> with the subject AGMDC Design Consultation. Include your frequency band, gain and noise target, power level, package preference, and timeline. An AGMDC engineer will reply with a practical path to working hardware.</p>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact">
+      <div class="wrap">
+        <div>
+          <h2>Still have a question?</h2>
+          <p>Send us your frequency band, key specs, and timeline. An AGMDC engineer will reply with a practical path to working hardware.</p>
+        </div>
+        <div class="contact-actions">
+          <a class="btn btn-navy" href="mailto:sales@amplitechgroup.com?subject=AGMDC%20Design%20Consultation">Email our engineers</a>
+          <a class="phone" href="tel:+16315217831">+1 631.521.7831</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <h3>AGMDC</h3>
+          <p>AmpliTech Group Microwave Design Center<br>Allen Tech Hub, Allen, Texas</p>
+          <p style="margin-top:12px;"><a href="mailto:sales@amplitechgroup.com">sales@amplitechgroup.com</a><br><a href="tel:+16315217831">+1 631.521.7831</a></p>
+        </div>
+        <div>
+          <h3>This site</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#process">Process</a></li>
+            <li><a href="index.html#capabilities">Capabilities</a></li>
+            <li><a href="products.html">Products</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Products</h3>
+          <ul>
+            <li><a href="products.html?form=die">Bare die MMICs</a></li>
+            <li><a href="products.html?form=pkg">Packaged MMICs</a></li>
+            <li><a href="products.html?form=lnb">Low noise blocks</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>AmpliTech Group</h3>
+          <ul>
+            <li><a href="https://www.amplitechgroup.com">Corporate site</a></li>
+            <li><a href="https://www.amplitechgroup.com/investor-relations/">Investor relations</a></li>
+            <li><a href="https://www.amplitechgroup.com/news-and-events/">News and events</a></li>
+            <li><a href="https://www.agmdcinc.com">Official AGMDC site</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="footer-note">Concept page for a class project. It is not the official AGMDC website, which is at agmdcinc.com. Specifications are subject to change without notice.</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var all = document.querySelectorAll(".faq details");
+      document.getElementById("open-all").addEventListener("click", function () {
+        all.forEach(function (d) { d.open = true; });
+      });
+      document.getElementById("close-all").addEventListener("click", function () {
+        all.forEach(function (d) { d.open = false; });
+      });
+    })();
+  </script>
+
+  <!-- Chatling chatbot (Lab 3 bot), floating chat widget -->
+  <script> window.chtlConfig = { chatbotId: "2329735411" } </script>
+  <script async data-id="2329735411" id="chtl-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
+</body>
+</html>
