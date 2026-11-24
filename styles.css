@@ -594,3 +594,85 @@ td.part { font-weight: 600; color: var(--navy); }
   .hero .wrap { padding-top: 32px; padding-bottom: 44px; }
   .hero h1 { max-width: 16ch; }
 }
+
+/* ---------- Careers: listing page and job pages ---------- */
+
+.btn-outline { background: var(--white); color: var(--navy); border-color: var(--navy); }
+.btn-outline:hover { background: var(--navy); color: var(--white); }
+
+.openings { padding: 56px 0 72px; }
+.openings .lede { margin-top: 10px; }
+.job-list { margin-top: 28px; border-top: 3px solid var(--navy); }
+.job-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px 48px;
+  align-items: start;
+  padding: 30px 0;
+  border-bottom: 1px solid var(--line);
+}
+.job-card h3 { font-family: var(--serif); font-size: 1.5rem; font-weight: 700; }
+.job-card h3 a { color: var(--navy); text-decoration: none; }
+.job-card h3 a:hover { color: var(--blue-deep); text-decoration: underline; }
+.job-facts {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 26px;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+.job-facts strong { color: var(--navy); font-weight: 600; }
+.job-card p { margin-top: 12px; max-width: 66ch; }
+.job-card .actions { display: flex; flex-direction: column; gap: 10px; min-width: 168px; text-align: center; }
+.job-empty, .job-fallback { padding: 26px 0; }
+.job-fallback { margin: 0; padding-left: 20px; }
+.apply-note { margin-top: 22px; font-size: 0.93rem; color: var(--muted); max-width: 70ch; }
+
+.crumbs { font-size: 0.9rem; margin: 0 0 14px; }
+.page-head .crumbs { margin-top: 0; }
+.crumbs a { color: #c9d4e4; }
+
+.job-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 56px;
+  align-items: start;
+  padding: 52px 0 76px;
+}
+.job-body h2 { font-size: 1.45rem; margin-top: 38px; }
+.job-body h2:first-child { margin-top: 0; }
+.job-body p { margin-top: 12px; max-width: 68ch; }
+.job-body ul { margin: 12px 0 0; padding-left: 20px; max-width: 68ch; }
+.job-body li { padding: 4px 0; }
+.job-body li::marker { color: var(--blue); }
+.job-side {
+  position: sticky;
+  top: 100px;
+  background: var(--panel);
+  border-top: 5px solid var(--blue);
+  border-radius: 4px;
+  padding: 24px;
+}
+.job-side dl { margin: 0 0 6px; }
+.job-side dt { font-size: 0.82rem; font-weight: 600; color: var(--muted); }
+.job-side dd { margin: 2px 0 14px; font-weight: 500; color: var(--navy); }
+.job-side .btn { display: block; text-align: center; }
+.job-side-note { margin-top: 12px; font-size: 0.86rem; color: var(--muted); }
+.job-side a.small { display: block; margin-top: 12px; font-size: 0.93rem; }
+
+@media (max-width: 900px) {
+  .job-layout { grid-template-columns: 1fr; gap: 36px; padding: 36px 0 56px; }
+  .job-side { position: static; order: -1; }
+  .job-card { grid-template-columns: 1fr; }
+  .job-card .actions { flex-direction: row; flex-wrap: wrap; }
+  .job-card .actions .btn { flex: 1 1 140px; }
+}
+
+/* Medium screens: drop the secondary menu links so the menu fits on one line. */
+@media (max-width: 1000px) {
+  .nav-links a.hide-md { display: none; }
+  .nav-links { gap: 22px; }
+}

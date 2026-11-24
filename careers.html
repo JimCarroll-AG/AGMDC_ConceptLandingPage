@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Careers | AGMDC</title>
+  <meta name="description" content="Open positions at AGMDC, the RF and microwave design division of AmpliTech Group, in Allen, Texas.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Source+Serif+4:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="utility">
+    <div class="wrap">
+      <span class="tagline">A division of AmpliTech Group, Inc. (NASDAQ: AMPG)</span>
+      <span>
+        <a href="https://www.amplitechgroup.com">AmpliTech Group</a>
+        <a href="https://www.amplitechgroup.com/investor-relations/">Investor relations</a>
+      </span>
+    </div>
+  </div>
+
+  <header class="nav">
+    <div class="wrap">
+      <a class="nav-logo" href="index.html"><img src="logo.png" alt="AGMDC, an AmpliTech Group company"></a>
+      <nav class="nav-links" aria-label="Main">
+        <a class="hide-sm" href="index.html">Home</a>
+        <a class="hide-sm hide-md" href="index.html#capabilities">Capabilities</a>
+        <a href="products.html">Products</a>
+        <a class="hide-sm" href="faq.html">FAQ</a>
+        <a href="careers.html" aria-current="page">Careers</a>
+        <a class="btn btn-primary hide-sm" href="mailto:sales@amplitechgroup.com?subject=AGMDC%20Design%20Consultation">Start a design</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="page-head">
+      <div class="wrap">
+        <h1>Careers</h1>
+        <p>AGMDC is the RF and microwave design division of AmpliTech Group. We are a small, hands-on team in Allen, Texas, designing MMICs and RF subsystems for SATCOM, defense, 5G, space, and quantum computing.</p>
+      </div>
+    </section>
+
+    <section class="openings">
+      <div class="wrap">
+        <h2>Open positions</h2>
+        <p class="lede" id="job-count" aria-live="polite">Loading open positions.</p>
+
+        <div class="job-list" id="job-list">
+          <noscript>
+            <ul>
+            <li><a href="job-2nd-shift-engineering-technician.html">2nd Shift Engineering Technician</a></li>
+            <li><a href="job-mmic-design-engineer.html">MMIC Design Engineer</a></li>
+            <li><a href="job-senior-rf-test-systems-engineer.html">Senior RF Test Systems Engineer</a></li>
+            </ul>
+          </noscript>
+        </div>
+
+        <p class="apply-note">Apply now opens AmpliTech Group's application form with the position already filled in. You enter your name and email and upload a resume.</p>
+      </div>
+    </section>
+
+    <section class="section contact">
+      <div class="wrap">
+        <div>
+          <h2>Don't see your role?</h2>
+          <p>We are always glad to hear from RF and microwave engineers and technicians. Send a note through AmpliTech Group's contact form and choose General Inquiry.</p>
+        </div>
+        <div class="contact-actions">
+          <a class="btn btn-navy" target="_blank" rel="noopener" href="https://www.amplitechgroup.com/contact-us/">Contact AmpliTech Group</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+  /* ------------------------------------------------------------------
+     OPEN POSITIONS
+     Each job is its own file. This page opens each file in the list
+     below and builds its card from that file, so the job text only
+     lives in one place.
+
+       To take a job down:  delete its file from the repo. Its card
+                            disappears. (Removing its line below is tidy
+                            but not required.)
+       To add a job:        copy one of the job files, edit it, upload
+                            it, and add its file name to this list.
+       To change a job:     edit that job's file. Nothing to change here.
+     ------------------------------------------------------------------ */
+  const JOB_FILES = [
+      "job-2nd-shift-engineering-technician.html",
+      "job-mmic-design-engineer.html",
+      "job-senior-rf-test-systems-engineer.html"
+  ];
+
+  (function () {
+    const list = document.getElementById("job-list");
+    const count = document.getElementById("job-count");
+
+    function text(doc, selector) {
+      const node = doc.querySelector(selector);
+      return node ? node.textContent.trim() : "";
+    }
+
+    async function loadJob(file) {
+      try {
+        const res = await fetch(file, { cache: "no-cache" });
+        if (!res.ok) return null;                       // file deleted: skip it
+        const doc = new DOMParser().parseFromString(await res.text(), "text/html");
+        const job = doc.querySelector(".job");
+        if (!job) return null;
+        const apply = doc.querySelector("a.job-apply");
+        return {
+          file: file,
+          title: text(doc, "h1"),
+          summary: text(doc, ".job-summary"),
+          location: job.dataset.location || "",
+          type: job.dataset.type || "",
+          apply: apply ? apply.getAttribute("href") : ""
+        };
+      } catch (err) {
+        return null;
+      }
+    }
+
+    function el(tag, className, content) {
+      const node = document.createElement(tag);
+      if (className) node.className = className;
+      if (content) node.textContent = content;
+      return node;
+    }
+
+    function card(job) {
+      const item = el("div", "job-card");
+
+      const main = el("div");
+      const h3 = el("h3");
+      const titleLink = el("a", "", job.title);
+      titleLink.href = job.file;
+      h3.appendChild(titleLink);
+      main.appendChild(h3);
+
+      const facts = el("ul", "job-facts");
+      [["Location", job.location], ["Type", job.type]].forEach(function (pair) {
+        if (!pair[1]) return;
+        const li = el("li");
+        li.appendChild(el("strong", "", pair[0] + ": "));
+        li.appendChild(document.createTextNode(pair[1]));
+        facts.appendChild(li);
+      });
+      main.appendChild(facts);
+      if (job.summary) main.appendChild(el("p", "", job.summary));
+      item.appendChild(main);
+
+      const actions = el("div", "actions");
+      if (job.apply) {
+        const apply = el("a", "btn btn-primary", "Apply now");
+        apply.href = job.apply;
+        apply.target = "_blank";
+        apply.rel = "noopener";
+        actions.appendChild(apply);
+      }
+      const more = el("a", "btn btn-outline", "Read more");
+      more.href = job.file;
+      actions.appendChild(more);
+      item.appendChild(actions);
+      return item;
+    }
+
+    Promise.all(JOB_FILES.map(loadJob)).then(function (results) {
+      const jobs = results.filter(Boolean);
+      list.innerHTML = "";
+
+      if (jobs.length) {
+        jobs.forEach(function (job) { list.appendChild(card(job)); });
+        count.textContent = jobs.length + (jobs.length === 1 ? " open position" : " open positions") +
+                            " in Allen, Texas.";
+        return;
+      }
+
+      if (location.protocol === "file:") {
+        // Opened straight from a computer: browsers block the page from reading the job files.
+        count.textContent = "Job cards load when the site is viewed on GitHub. Until then, here are the job files:";
+        const ul = el("ul", "job-fallback");
+        JOB_FILES.forEach(function (file) {
+          const li = el("li");
+          const a = el("a", "", file);
+          a.href = file;
+          li.appendChild(a);
+          ul.appendChild(li);
+        });
+        list.appendChild(ul);
+        return;
+      }
+
+      count.textContent = "There are no open positions right now.";
+      list.appendChild(el("p", "job-empty", "Check back soon, or use the contact form below to introduce yourself."));
+    });
+  })();
+  </script>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <h3>AGMDC</h3>
+          <p>AmpliTech Group Microwave Design Center<br>Allen Tech Hub, Allen, Texas</p>
+          <p style="margin-top:12px;"><a href="mailto:sales@amplitechgroup.com">sales@amplitechgroup.com</a><br><a href="tel:+16315217831">+1 631.521.7831</a></p>
+        </div>
+        <div>
+          <h3>This site</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#capabilities">Capabilities</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="careers.html">Careers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Products</h3>
+          <ul>
+            <li><a href="products.html?form=die">Bare die MMICs</a></li>
+            <li><a href="products.html?form=pkg">Packaged MMICs</a></li>
+            <li><a href="products.html?form=lnb">Low noise blocks</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>AmpliTech Group</h3>
+          <ul>
+            <li><a href="https://www.amplitechgroup.com">Corporate site</a></li>
+            <li><a href="https://www.amplitechgroup.com/careers/">Corporate careers</a></li>
+            <li><a href="https://www.amplitechgroup.com/news-and-events/">News and events</a></li>
+            <li><a href="https://www.agmdcinc.com">Official AGMDC site</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="footer-note">Concept page for a class project. It is not the official AGMDC website, which is at agmdcinc.com. Official job postings and applications are on amplitechgroup.com.</p>
+    </div>
+  </footer>
+
+  <!-- Chatling chatbot (Lab 3 bot), floating chat widget -->
+  <script> window.chtlConfig = { chatbotId: "2329735411" } </script>
+  <script async data-id="2329735411" id="chtl-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
+</body>
+</html>
