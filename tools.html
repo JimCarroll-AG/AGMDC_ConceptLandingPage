@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>RF Engineering Tools: Noise Temperature, VSWR, Waveguide, Power | AGMDC</title>
+  <meta name="description" content="Free RF engineering tools from AGMDC: noise temperature to noise figure, return loss to VSWR, rectangular waveguide sizes, and RF power unit conversion.">
+  <link rel="canonical" href="https://jimcarroll-ag.github.io/AGMDC_ConceptLandingPage/tools.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Source+Serif+4:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Tools page only. Everything else comes from styles.css. */
+    .tools { padding: 56px 0 72px; }
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px;
+    }
+    .tool {
+      display: flex;
+      flex-direction: column;
+      background: var(--panel);
+      border-top: 5px solid var(--blue);
+      border-radius: 4px;
+      padding: 28px 28px 24px;
+      scroll-margin-top: 100px;
+    }
+    .tool h2 { font-size: 1.5rem; }
+    .tool .what { margin-top: 8px; color: var(--muted); }
+    .tool-fields {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px 18px;
+      margin-top: 22px;
+    }
+    .tool-fields.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .tool-fields .wide { grid-column: 1 / -1; }
+    .tool-out {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px 18px;
+      margin: 22px 0 0;
+      padding-top: 18px;
+      border-top: 1px solid #c3cee0;
+    }
+    .tool-out.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tool-out dt { font-size: 0.82rem; font-weight: 600; color: var(--muted); }
+    .tool-out dd {
+      margin: 3px 0 0;
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--navy);
+      font-variant-numeric: tabular-nums;
+    }
+    .tool-out dd.links { font-family: var(--sans); font-size: 0.97rem; font-weight: 500; }
+    .tool-out .wide { grid-column: 1 / -1; }
+    .tool-msg { min-height: 1.5em; margin-top: 10px; font-size: 0.9rem; font-weight: 500; color: #a3262c; }
+    .tool-note { margin-top: auto; padding-top: 14px; font-size: 0.88rem; color: var(--muted); }
+    .tool-note .formula { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+    .ref-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 28px;
+      align-items: start;
+    }
+    .ref h3 { font-family: var(--serif); font-size: 1.3rem; font-weight: 700; }
+    .ref .formula { margin-top: 6px; font-size: 0.9rem; color: var(--muted); }
+    .ref-wide { margin-top: 44px; }
+    .ref .tablewrap { background: var(--white); }
+
+    @media (max-width: 980px) {
+      .ref-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 860px) {
+      .tool-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 460px) {
+      .tool { padding: 22px 18px 20px; }
+      .tool-fields.three { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .tool-out { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="utility">
+    <div class="wrap">
+      <span class="tagline">A division of AmpliTech Group, Inc. (NASDAQ: AMPG)</span>
+      <span>
+        <a href="https://www.amplitechgroup.com">AmpliTech Group</a>
+        <a href="https://www.amplitechgroup.com/investor-relations/">Investor relations</a>
+      </span>
+    </div>
+  </div>
+
+  <header class="nav">
+    <div class="wrap">
+      <a class="nav-logo" href="index.html"><img src="logo.png" alt="AGMDC, an AmpliTech Group company"></a>
+      <nav class="nav-links" aria-label="Main">
+        <a class="hide-sm" href="index.html">Home</a>
+        <a class="hide-sm hide-md" href="index.html#capabilities">Capabilities</a>
+        <a href="products.html">Products</a>
+        <a class="hide-sm" href="faq.html">FAQ</a>
+        <a href="tools.html" aria-current="page">Tools</a>
+        <a class="hide-sm" href="careers.html">Careers</a>
+        <a class="btn btn-primary hide-sm" href="mailto:sales@amplitechinc.com?subject=AGMDC%20Design%20Consultation">Start a design</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="page-head">
+      <div class="wrap">
+        <h1>RF engineering tools</h1>
+        <p>Four conversions we reach for at the bench: noise temperature, return loss, waveguide sizes, and RF power. Change any value and the rest update. Nothing you enter leaves your browser.</p>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         THE FOUR TOOLS
+         Each tool is one <section class="tool">. The math for all four is in
+         the script at the bottom of this file.
+         The waveguide pulldown reads its numbers from the waveguide table in
+         the Reference tables section, so that table is the only place to
+         add or correct a waveguide size.
+         ===================================================================== -->
+    <section class="tools">
+      <div class="wrap">
+        <div class="tool-grid">
+
+          <section class="tool" id="noise" aria-labelledby="noise-h">
+            <h2 id="noise-h">Noise temperature and noise figure</h2>
+            <p class="what">Convert between equivalent input noise temperature and noise figure.</p>
+            <div class="tool-fields">
+              <div class="field">
+                <label for="nt-k">Noise temperature (K)</label>
+                <input id="nt-k" type="number" inputmode="decimal" min="0" step="any" value="45">
+              </div>
+              <div class="field">
+                <label for="nt-nf">Noise figure (dB)</label>
+                <input id="nt-nf" type="number" inputmode="decimal" min="0" step="any" value="0.6265">
+              </div>
+            </div>
+            <dl class="tool-out two" aria-live="polite">
+              <div><dt>Noise factor (linear)</dt><dd id="nt-f">1.155</dd></div>
+              <div><dt>Reference temperature</dt><dd>290 K</dd></div>
+            </dl>
+            <p class="tool-msg" id="nt-msg" role="status"></p>
+            <p class="tool-note"><span class="formula">NF = 10 log<sub>10</sub>(1 + T / 290)</span><br>This does not include antenna noise or cascade effects. Our <a href="products.html?form=lnb">low noise blocks</a> are specified in noise temperature.</p>
+          </section>
+
+          <section class="tool" id="vswr" aria-labelledby="vswr-h">
+            <h2 id="vswr-h">Return loss and VSWR</h2>
+            <p class="what">Convert between return loss, VSWR, and reflection coefficient.</p>
+            <div class="tool-fields three">
+              <div class="field">
+                <label for="rl-db">Return loss (dB)</label>
+                <input id="rl-db" type="number" inputmode="decimal" min="0" step="any" value="20">
+              </div>
+              <div class="field">
+                <label for="rl-vswr">VSWR (:1)</label>
+                <input id="rl-vswr" type="number" inputmode="decimal" min="1" step="any" value="1.222">
+              </div>
+              <div class="field">
+                <label for="rl-gamma">Reflection coeff. |&Gamma;|</label>
+                <input id="rl-gamma" type="number" inputmode="decimal" min="0" max="1" step="any" value="0.1">
+              </div>
+            </div>
+            <dl class="tool-out" aria-live="polite">
+              <div><dt>Mismatch loss</dt><dd id="rl-ml">0.04365 dB</dd></div>
+              <div><dt>Reflected power</dt><dd id="rl-refl">1%</dd></div>
+              <div><dt>Through power</dt><dd id="rl-thru">99%</dd></div>
+            </dl>
+            <p class="tool-msg" id="rl-msg" role="status"></p>
+            <p class="tool-note"><span class="formula">|&Gamma;| = 10<sup>&minus;RL / 20</sup> &nbsp; VSWR = (1 + |&Gamma;|) / (1 &minus; |&Gamma;|)</span><br>Mismatch loss is &minus;10 log<sub>10</sub>(1 &minus; |&Gamma;|<sup>2</sup>).</p>
+          </section>
+
+          <section class="tool" id="waveguide" aria-labelledby="wg-h">
+            <h2 id="wg-h">Rectangular waveguide sizes</h2>
+            <p class="what">Pick a WR size to see its inside dimensions and usable frequency range.</p>
+            <div class="tool-fields">
+              <div class="field wide">
+                <label for="wg-size">Waveguide size</label>
+                <select id="wg-size">
+                  <option value="WR-430">WR-430 (1.70 to 2.60 GHz)</option>
+                  <option value="WR-340">WR-340 (2.20 to 3.30 GHz)</option>
+                  <option value="WR-284">WR-284 (2.60 to 3.95 GHz)</option>
+                  <option value="WR-229">WR-229 (3.30 to 4.90 GHz)</option>
+                  <option value="WR-187">WR-187 (3.95 to 5.85 GHz)</option>
+                  <option value="WR-159">WR-159 (4.90 to 7.05 GHz)</option>
+                  <option value="WR-137">WR-137 (5.85 to 8.20 GHz)</option>
+                  <option value="WR-112">WR-112 (7.05 to 10.0 GHz)</option>
+                  <option value="WR-90">WR-90 (8.20 to 12.4 GHz)</option>
+                  <option value="WR-75">WR-75 (10.0 to 15.0 GHz)</option>
+                  <option value="WR-62">WR-62 (12.4 to 18.0 GHz)</option>
+                  <option value="WR-51">WR-51 (15.0 to 22.0 GHz)</option>
+                  <option value="WR-42" selected>WR-42 (18.0 to 26.5 GHz)</option>
+                  <option value="WR-34">WR-34 (22.0 to 33.0 GHz)</option>
+                  <option value="WR-28">WR-28 (26.5 to 40.0 GHz)</option>
+                  <option value="WR-22">WR-22 (33.0 to 50.0 GHz)</option>
+                  <option value="WR-19">WR-19 (40.0 to 60.0 GHz)</option>
+                  <option value="WR-15">WR-15 (50.0 to 75.0 GHz)</option>
+                  <option value="WR-12">WR-12 (60.0 to 90.0 GHz)</option>
+                  <option value="WR-10">WR-10 (75.0 to 110 GHz)</option>
+                </select>
+              </div>
+            </div>
+            <dl class="tool-out two" aria-live="polite">
+              <div><dt>Usable frequency range</dt><dd id="wg-range">18.0 to 26.5 GHz</dd></div>
+              <div><dt>TE<sub>10</sub> cutoff</dt><dd id="wg-fc">14.05 GHz</dd></div>
+              <div><dt>Inside dimensions (in)</dt><dd id="wg-in">0.420 &times; 0.170</dd></div>
+              <div><dt>Inside dimensions (mm)</dt><dd id="wg-mm">10.668 &times; 4.318</dd></div>
+              <div class="wide"><dt>AGMDC parts in this range</dt><dd class="links" id="wg-parts"><a href="products.html?band=K">K band parts</a></dd></div>
+            </dl>
+            <p class="tool-note">The WR number is the broad wall width in hundredths of an inch. Cutoff is for the TE<sub>10</sub> mode in an air-filled guide.</p>
+          </section>
+
+          <section class="tool" id="power" aria-labelledby="pw-h">
+            <h2 id="pw-h">RF power conversion</h2>
+            <p class="what">Convert between dBm, dBW, watts, and voltage.</p>
+            <div class="tool-fields three">
+              <div class="field">
+                <label for="pw-dbm">Power (dBm)</label>
+                <input id="pw-dbm" type="number" inputmode="decimal" step="any" value="0">
+              </div>
+              <div class="field">
+                <label for="pw-dbw">Power (dBW)</label>
+                <input id="pw-dbw" type="number" inputmode="decimal" step="any" value="-30">
+              </div>
+              <div class="field">
+                <label for="pw-mw">Power (mW)</label>
+                <input id="pw-mw" type="number" inputmode="decimal" min="0" step="any" value="1">
+              </div>
+              <div class="field">
+                <label for="pw-w">Power (W)</label>
+                <input id="pw-w" type="number" inputmode="decimal" min="0" step="any" value="0.001">
+              </div>
+              <div class="field">
+                <label for="pw-vrms">Voltage (V rms)</label>
+                <input id="pw-vrms" type="number" inputmode="decimal" min="0" step="any" value="0.2236">
+              </div>
+              <div class="field">
+                <label for="pw-vpp">Voltage (V p-p)</label>
+                <input id="pw-vpp" type="number" inputmode="decimal" min="0" step="any" value="0.6325">
+              </div>
+              <div class="field wide">
+                <label for="pw-z">System impedance</label>
+                <select id="pw-z">
+                  <option value="50" selected>50 ohms</option>
+                  <option value="75">75 ohms</option>
+                </select>
+              </div>
+            </div>
+            <p class="tool-msg" id="pw-msg" role="status"></p>
+            <p class="tool-note"><span class="formula">P(mW) = 10<sup>dBm / 10</sup> &nbsp; V<sub>rms</sub> = &radic;(P &times; Z)</span><br>Voltages assume a sine wave into the impedance selected.</p>
+          </section>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         REFERENCE TABLES
+         Plain text versions of the same conversions, so the numbers can be
+         read without running the tools.
+         ===================================================================== -->
+    <section class="section section-tint ref" id="reference">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Reference tables</h2>
+          <p class="lede">The same conversions at common values, for a quick lookup.</p>
+        </div>
+
+        <div class="ref-grid">
+          <div>
+            <h3>Noise temperature to noise figure</h3>
+            <p class="formula">NF = 10 log<sub>10</sub>(1 + T / 290), with a 290 K reference.</p>
+            <div class="tablewrap">
+              <table>
+                <thead><tr><th scope="col">Noise temperature (K)</th><th scope="col">Noise figure (dB)</th></tr></thead>
+                <tbody>
+                  <tr><td>10</td><td>0.147</td></tr>
+                  <tr><td>20</td><td>0.290</td></tr>
+                  <tr><td>35</td><td>0.495</td></tr>
+                  <tr><td>50</td><td>0.691</td></tr>
+                  <tr><td>75</td><td>0.999</td></tr>
+                  <tr><td>100</td><td>1.287</td></tr>
+                  <tr><td>150</td><td>1.811</td></tr>
+                  <tr><td>200</td><td>2.278</td></tr>
+                  <tr><td>290</td><td>3.010</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h3>Return loss to VSWR</h3>
+            <p class="formula">VSWR = (1 + |&Gamma;|) / (1 &minus; |&Gamma;|), where |&Gamma;| = 10<sup>&minus;RL / 20</sup>.</p>
+            <div class="tablewrap">
+              <table>
+                <thead><tr><th scope="col">Return loss (dB)</th><th scope="col">VSWR</th><th scope="col">Reflected power</th></tr></thead>
+                <tbody>
+                  <tr><td>6</td><td>3.010</td><td>25.12%</td></tr>
+                  <tr><td>10</td><td>1.925</td><td>10%</td></tr>
+                  <tr><td>12</td><td>1.671</td><td>6.31%</td></tr>
+                  <tr><td>14</td><td>1.499</td><td>3.98%</td></tr>
+                  <tr><td>15</td><td>1.433</td><td>3.16%</td></tr>
+                  <tr><td>18</td><td>1.288</td><td>1.58%</td></tr>
+                  <tr><td>20</td><td>1.222</td><td>1%</td></tr>
+                  <tr><td>26</td><td>1.106</td><td>0.25%</td></tr>
+                  <tr><td>30</td><td>1.065</td><td>0.1%</td></tr>
+                  <tr><td>40</td><td>1.020</td><td>0.01%</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h3>RF power in a 50 ohm system</h3>
+            <p class="formula">P(mW) = 10<sup>dBm / 10</sup>. Voltage is rms for a sine wave.</p>
+            <div class="tablewrap">
+              <table>
+                <thead><tr><th scope="col">dBm</th><th scope="col">Power</th><th scope="col">Voltage (rms)</th></tr></thead>
+                <tbody>
+                  <tr><td>-30</td><td>1 &micro;W</td><td>7.07 mV</td></tr>
+                  <tr><td>-20</td><td>10 &micro;W</td><td>22.4 mV</td></tr>
+                  <tr><td>-10</td><td>100 &micro;W</td><td>70.7 mV</td></tr>
+                  <tr><td>0</td><td>1 mW</td><td>224 mV</td></tr>
+                  <tr><td>10</td><td>10 mW</td><td>707 mV</td></tr>
+                  <tr><td>20</td><td>100 mW</td><td>2.24 V</td></tr>
+                  <tr><td>30</td><td>1 W</td><td>7.07 V</td></tr>
+                  <tr><td>40</td><td>10 W</td><td>22.4 V</td></tr>
+                  <tr><td>50</td><td>100 W</td><td>70.7 V</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="ref-wide">
+          <h3>Standard rectangular waveguide sizes</h3>
+          <p class="formula">EIA WR sizes from WR-430 to WR-10. TE<sub>10</sub> cutoff is c / 2a for an air-filled guide, where a is the broad wall width.</p>
+          <div class="tablewrap">
+            <!-- The waveguide pulldown above is built from these rows.
+                 To add or correct a size, edit the row here. data-bands lists
+                 the AGMDC product bands the tool links to for that size. -->
+            <table id="wg-table">
+              <thead><tr><th scope="col">Size</th><th scope="col">Inside dimensions (in)</th><th scope="col">Inside dimensions (mm)</th><th scope="col">Usable frequency range (GHz)</th><th scope="col">TE<sub>10</sub> cutoff (GHz)</th></tr></thead>
+              <tbody>
+                <tr id="wg-WR-430" data-bands="L,S"><td class="part">WR-430</td><td>4.300 &times; 2.150</td><td>109.220 &times; 54.610</td><td>1.70 to 2.60</td><td>1.37</td></tr>
+                <tr id="wg-WR-340" data-bands="S"><td class="part">WR-340</td><td>3.400 &times; 1.700</td><td>86.360 &times; 43.180</td><td>2.20 to 3.30</td><td>1.74</td></tr>
+                <tr id="wg-WR-284" data-bands="S"><td class="part">WR-284</td><td>2.840 &times; 1.340</td><td>72.136 &times; 34.036</td><td>2.60 to 3.95</td><td>2.08</td></tr>
+                <tr id="wg-WR-229" data-bands="S,C"><td class="part">WR-229</td><td>2.290 &times; 1.145</td><td>58.166 &times; 29.083</td><td>3.30 to 4.90</td><td>2.58</td></tr>
+                <tr id="wg-WR-187" data-bands="C"><td class="part">WR-187</td><td>1.872 &times; 0.872</td><td>47.549 &times; 22.149</td><td>3.95 to 5.85</td><td>3.15</td></tr>
+                <tr id="wg-WR-159" data-bands="C"><td class="part">WR-159</td><td>1.590 &times; 0.795</td><td>40.386 &times; 20.193</td><td>4.90 to 7.05</td><td>3.71</td></tr>
+                <tr id="wg-WR-137" data-bands="C"><td class="part">WR-137</td><td>1.372 &times; 0.622</td><td>34.849 &times; 15.799</td><td>5.85 to 8.20</td><td>4.30</td></tr>
+                <tr id="wg-WR-112" data-bands="C,X"><td class="part">WR-112</td><td>1.122 &times; 0.497</td><td>28.499 &times; 12.624</td><td>7.05 to 10.0</td><td>5.26</td></tr>
+                <tr id="wg-WR-90" data-bands="X"><td class="part">WR-90</td><td>0.900 &times; 0.400</td><td>22.860 &times; 10.160</td><td>8.20 to 12.4</td><td>6.56</td></tr>
+                <tr id="wg-WR-75" data-bands="X,Ku"><td class="part">WR-75</td><td>0.750 &times; 0.375</td><td>19.050 &times; 9.525</td><td>10.0 to 15.0</td><td>7.87</td></tr>
+                <tr id="wg-WR-62" data-bands="Ku"><td class="part">WR-62</td><td>0.622 &times; 0.311</td><td>15.799 &times; 7.899</td><td>12.4 to 18.0</td><td>9.49</td></tr>
+                <tr id="wg-WR-51" data-bands="Ku,K"><td class="part">WR-51</td><td>0.510 &times; 0.255</td><td>12.954 &times; 6.477</td><td>15.0 to 22.0</td><td>11.57</td></tr>
+                <tr id="wg-WR-42" data-bands="K"><td class="part">WR-42</td><td>0.420 &times; 0.170</td><td>10.668 &times; 4.318</td><td>18.0 to 26.5</td><td>14.05</td></tr>
+                <tr id="wg-WR-34" data-bands="K,Ka"><td class="part">WR-34</td><td>0.340 &times; 0.170</td><td>8.636 &times; 4.318</td><td>22.0 to 33.0</td><td>17.36</td></tr>
+                <tr id="wg-WR-28" data-bands="Ka,Q"><td class="part">WR-28</td><td>0.280 &times; 0.140</td><td>7.112 &times; 3.556</td><td>26.5 to 40.0</td><td>21.08</td></tr>
+                <tr id="wg-WR-22" data-bands="Ka,Q"><td class="part">WR-22</td><td>0.224 &times; 0.112</td><td>5.690 &times; 2.845</td><td>33.0 to 50.0</td><td>26.35</td></tr>
+                <tr id="wg-WR-19" data-bands="Q"><td class="part">WR-19</td><td>0.188 &times; 0.094</td><td>4.775 &times; 2.388</td><td>40.0 to 60.0</td><td>31.39</td></tr>
+                <tr id="wg-WR-15" data-bands=""><td class="part">WR-15</td><td>0.148 &times; 0.074</td><td>3.759 &times; 1.880</td><td>50.0 to 75.0</td><td>39.87</td></tr>
+                <tr id="wg-WR-12" data-bands=""><td class="part">WR-12</td><td>0.122 &times; 0.061</td><td>3.099 &times; 1.549</td><td>60.0 to 90.0</td><td>48.37</td></tr>
+                <tr id="wg-WR-10" data-bands=""><td class="part">WR-10</td><td>0.100 &times; 0.050</td><td>2.540 &times; 1.270</td><td>75.0 to 110</td><td>59.01</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact">
+      <div class="wrap">
+        <div>
+          <h2>Start a design conversation</h2>
+          <p>Send us your frequency band, key specs, and timeline. An AGMDC engineer will reply with a practical path to working hardware.</p>
+        </div>
+        <div class="contact-actions">
+          <a class="btn btn-navy" href="mailto:sales@amplitechinc.com?subject=AGMDC%20Design%20Consultation">Email our engineers</a>
+          <a class="phone" href="tel:+16315217831">+1 631.521.7831</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <h3>AGMDC</h3>
+          <p>AmpliTech Group Microwave Design Center<br>Allen Tech Hub, Allen, Texas</p>
+          <p style="margin-top:12px;"><a href="mailto:sales@amplitechinc.com">sales@amplitechinc.com</a><br><a href="tel:+16315217831">+1 631.521.7831</a></p>
+        </div>
+        <div>
+          <h3>This site</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#capabilities">Capabilities</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="tools.html">Tools</a></li>
+            <li><a href="careers.html">Careers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Products</h3>
+          <ul>
+            <li><a href="products.html?form=die">Bare die MMICs</a></li>
+            <li><a href="products.html?form=pkg">Packaged MMICs</a></li>
+            <li><a href="products.html?form=lnb">Low noise blocks</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>AmpliTech Group</h3>
+          <ul>
+            <li><a href="https://www.amplitechgroup.com">Corporate site</a></li>
+            <li><a href="https://www.amplitechgroup.com/investor-relations/">Investor relations</a></li>
+            <li><a href="https://www.amplitechgroup.com/news-and-events/">News and events</a></li>
+            <li><a href="https://www.agmdcinc.com">Official AGMDC site</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="footer-note">Concept page for a class project. It is not the official AGMDC website, which is at agmdcinc.com. Check tool results against your own references before using them in a design.</p>
+    </div>
+  </footer>
+
+  <script>
+  (function () {
+    "use strict";
+
+    function $(id) { return document.getElementById(id); }
+
+    /* Round to 4 significant figures and drop trailing zeros. */
+    function tidy(x) { return String(Number(x.toPrecision(4))); }
+
+    /* ------------------------------------------------------------------
+       Linked fields. Every field in a tool converts to one shared "base"
+       value and back. Typing in any field updates the others.
+         toBase(v)   returns the base value, or NaN if v is out of range
+         fromBase(b) returns this field's value for that base
+       ------------------------------------------------------------------ */
+    function linkFields(fields, msgEl, onChange) {
+      function update(source) {
+        const raw = source.el.value.trim();
+        const base = raw === "" ? NaN : source.toBase(Number(raw));
+        const ok = Number.isFinite(base);
+        fields.forEach(function (f) {
+          if (f !== source) f.el.value = ok ? tidy(f.fromBase(base)) : "";
+        });
+        msgEl.textContent = ok || raw === "" ? "" : source.hint;
+        onChange(ok ? base : NaN);
+      }
+      fields.forEach(function (f) {
+        f.el.addEventListener("input", function () { update(f); });
+      });
+      return update;
+    }
+
+    /* ---------- 1. Noise temperature and noise figure (base: kelvin) ---------- */
+    const T0 = 290;
+    const noise = [
+      { el: $("nt-k"),
+        toBase: function (v) { return v >= 0 ? v : NaN; },
+        fromBase: function (t) { return t; },
+        hint: "Enter a noise temperature of 0 K or more." },
+      { el: $("nt-nf"),
+        toBase: function (v) { return v >= 0 ? T0 * (Math.pow(10, v / 10) - 1) : NaN; },
+        fromBase: function (t) { return 10 * Math.log10(1 + t / T0); },
+        hint: "Enter a noise figure of 0 dB or more." }
+    ];
+    linkFields(noise, $("nt-msg"), function (t) {
+      $("nt-f").textContent = Number.isFinite(t) ? tidy(1 + t / T0) : "–";
+    })(noise[0]);
+
+    /* ---------- 2. Return loss and VSWR (base: |gamma|, between 0 and 1) ---------- */
+    const match = [
+      { el: $("rl-db"),
+        toBase: function (v) { return v > 0 ? Math.pow(10, -v / 20) : NaN; },
+        fromBase: function (g) { return -20 * Math.log10(g); },
+        hint: "Enter a return loss above 0 dB." },
+      { el: $("rl-vswr"),
+        toBase: function (v) { return v > 1 ? (v - 1) / (v + 1) : NaN; },
+        fromBase: function (g) { return (1 + g) / (1 - g); },
+        hint: "Enter a VSWR above 1. A VSWR of exactly 1 is a perfect match." },
+      { el: $("rl-gamma"),
+        toBase: function (v) { return v > 0 && v < 1 ? v : NaN; },
+        fromBase: function (g) { return g; },
+        hint: "Enter a reflection coefficient between 0 and 1." }
+    ];
+    linkFields(match, $("rl-msg"), function (g) {
+      const ok = Number.isFinite(g);
+      $("rl-ml").textContent = ok ? tidy(-10 * Math.log10(1 - g * g)) + " dB" : "–";
+      $("rl-refl").textContent = ok ? tidy(100 * g * g) + "%" : "–";
+      $("rl-thru").textContent = ok ? tidy(100 * (1 - g * g)) + "%" : "–";
+    })(match[0]);
+
+    /* ---------- 3. Waveguide sizes (read from the reference table) ---------- */
+    const wgSelect = $("wg-size");
+    function showWaveguide() {
+      const row = document.getElementById("wg-" + wgSelect.value);
+      if (!row) return;
+      const cells = row.cells;
+      $("wg-in").textContent = cells[1].textContent;
+      $("wg-mm").textContent = cells[2].textContent;
+      $("wg-range").textContent = cells[3].textContent + " GHz";
+      $("wg-fc").textContent = cells[4].textContent + " GHz";
+      const bands = row.dataset.bands ? row.dataset.bands.split(",") : [];
+      const out = $("wg-parts");
+      out.textContent = "";
+      if (bands.length) {
+        bands.forEach(function (b, i) {
+          if (i) out.appendChild(document.createTextNode(" · "));
+          const a = document.createElement("a");
+          a.href = "products.html?band=" + encodeURIComponent(b);
+          a.textContent = b + " band parts";
+          out.appendChild(a);
+        });
+      } else {
+        out.appendChild(document.createTextNode("Above our standard catalog range of DC to 50 GHz. "));
+        const a = document.createElement("a");
+        a.href = "mailto:sales@amplitechinc.com?subject=" +
+          encodeURIComponent("AGMDC Design Consultation: " + wgSelect.value + " band");
+        a.textContent = "Ask about a custom design";
+        out.appendChild(a);
+        out.appendChild(document.createTextNode("."));
+      }
+    }
+    wgSelect.addEventListener("change", showWaveguide);
+    showWaveguide();
+
+    /* ---------- 4. RF power (base: watts) ---------- */
+    const zSelect = $("pw-z");
+    function z() { return Number(zSelect.value); }
+    const ROOT8 = 2 * Math.SQRT2;                 // peak-to-peak = 2 x sqrt(2) x rms
+    const power = [
+      { el: $("pw-dbm"),
+        toBase: function (v) { return Math.pow(10, (v - 30) / 10); },
+        fromBase: function (w) { return 10 * Math.log10(w) + 30; },
+        hint: "Enter a power in dBm." },
+      { el: $("pw-dbw"),
+        toBase: function (v) { return Math.pow(10, v / 10); },
+        fromBase: function (w) { return 10 * Math.log10(w); },
+        hint: "Enter a power in dBW." },
+      { el: $("pw-mw"),
+        toBase: function (v) { return v > 0 ? v / 1000 : NaN; },
+        fromBase: function (w) { return w * 1000; },
+        hint: "Enter a power above 0 mW." },
+      { el: $("pw-w"),
+        toBase: function (v) { return v > 0 ? v : NaN; },
+        fromBase: function (w) { return w; },
+        hint: "Enter a power above 0 W." },
+      { el: $("pw-vrms"),
+        toBase: function (v) { return v > 0 ? v * v / z() : NaN; },
+        fromBase: function (w) { return Math.sqrt(w * z()); },
+        hint: "Enter a voltage above 0 V." },
+      { el: $("pw-vpp"),
+        toBase: function (v) { return v > 0 ? (v / ROOT8) * (v / ROOT8) / z() : NaN; },
+        fromBase: function (w) { return ROOT8 * Math.sqrt(w * z()); },
+        hint: "Enter a voltage above 0 V." }
+    ];
+    const updatePower = linkFields(power, $("pw-msg"), function () {});
+    updatePower(power[0]);
+    /* Changing the impedance keeps the power and recalculates the voltages. */
+    zSelect.addEventListener("change", function () { updatePower(power[0]); });
+  })();
+  </script>
+
+  <!-- Chatling chatbot (Lab 3 bot), floating chat widget -->
+  <script> window.chtlConfig = { chatbotId: "2329735411" } </script>
+  <script async data-id="2329735411" id="chtl-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
+</body>
+</html>
